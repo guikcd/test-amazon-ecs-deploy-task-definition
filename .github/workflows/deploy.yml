@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches: 
+      - 'main'
+
+jobs:
+  deploy-main:
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
+          aws-region: ${{secres.AWS_REGION}}
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{secrets.MY_TASK_DEFINITION}} --query taskDefinition > task-definition.json
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: task-definition.json
+          service: ${{secrets.ECS_SERVICE}}
+          cluster: ${{secrets.ECS_CLUSTER}}
+          wait-for-service-stability: true
