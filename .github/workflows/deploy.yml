@@ -30,4 +30,4 @@ jobs:
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
-          tags: "[{\"key\": \"project\", \"value\": \"myproject\"}]"
+          tags: '[{"key": "project", "value": "myproject"}]'
