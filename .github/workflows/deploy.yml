@@ -32,8 +32,4 @@ jobs:
           wait-for-service-stability: true
           run-task: true
           run-task-container-overrides: '[{ "name": "sample-fargate-app2", "command": "/bin/sh -c \"httpd-foreground\"" }]'
-          tags: |
-	    {
-		"key": "project",
-		"value": "myproject"
-	    }
+          tags: '{ "key": "project", "value": "myproject" }'
