@@ -30,5 +30,9 @@ jobs:
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
-          enable-ecs-managed-tags: true
-          propagate-tags: SERVICE
+          run-task: true
+          run-task-security-groups: sg-05373143497415040
+          run-task-subnets: subnet-0a789657ae1a7e67a
+          run-task-tags: '[{"key": "project", "value": "myproject"}]'
+#          enable-ecs-managed-tags: true
+#          propagate-tags: SERVICE
