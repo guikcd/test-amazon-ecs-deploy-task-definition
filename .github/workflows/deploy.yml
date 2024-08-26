@@ -30,4 +30,5 @@ jobs:
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
-          custom_tags: '[{ "key": "project", "value": "myproject" }]'
+          run-task: true
+          tags: '[{ "key": "project", "value": "myproject" }]'
