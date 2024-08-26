@@ -30,4 +30,10 @@ jobs:
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
-          tags: '{"key": "project", "value": "myproject"}'
+          run-task: true
+          run-task-container-overrides: '[{ "name": "sample-fargate-app2", "command": "/bin/sh -c \"httpd-foreground\"" }]'
+          tags: |
+	    {
+		"key": "project",
+		"value": "myproject"
+	    }
