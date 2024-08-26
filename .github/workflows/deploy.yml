@@ -34,5 +34,5 @@ jobs:
           run-task-security-groups: sg-0dd8b7d47efa871c1
           run-task-subnets: subnet-48cffe2e
           run-task-tags: '[{"key": "project", "value": "myproject"}]'
-#          enable-ecs-managed-tags: true
-#          propagate-tags: SERVICE
+          enable-ecs-managed-tags: true
+          propagate-tags: SERVICE
