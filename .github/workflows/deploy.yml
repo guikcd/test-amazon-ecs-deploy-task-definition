@@ -22,6 +22,7 @@ jobs:
       - name: Download task definition
         run: |
           aws ecs describe-task-definition --task-definition ${{secrets.MY_TASK_DEFINITION}} --include TAGS --query taskDefinition > task-definition.json
+          cat task-definition.json
 
       - name: Deploy to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@tags
