@@ -21,8 +21,13 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{secrets.MY_TASK_DEFINITION}} --include TAGS --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{secrets.MY_TASK_DEFINITION}} --include TAGS --query taskDefinition > task-definition-without-tags.json
           cat task-definition.json
+          # get tags
+          # FIXME: move tags from the top to the content
+          aws ecs describe-task-definition --task-definition fargate-task-definition:46 --include TAGS --query tags > task-definition-tags.json
+          # merge tags content into task def
+          jq '.tags += $tags' --slurpfile tags task-definition-tags.json task-definition-without-tags.json > task-definition.json
 
       - name: Deploy to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@tags
