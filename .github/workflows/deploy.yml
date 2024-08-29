@@ -35,4 +35,4 @@ jobs:
           run-task-subnets: subnet-48cffe2e
           run-task-tags: '[{"key": "project", "value": "myproject"}]'
           enable-ecs-managed-tags: true
-          propagate-tags: SERVICE
+          propagate-tags: TASK_DEFINITION
