@@ -21,7 +21,7 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --query taskDefinition > task-definition.json
+          #aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --query taskDefinition > task-definition-without-tags.json
           #echo "###### task def ########"
           #cat task-definition-without-tags.json
           # get tags
@@ -31,6 +31,7 @@ jobs:
           #cat task-definition-tags.json
           # merge tags content into task def
           #jq '.tags += $tags' --slurpfile tags task-definition-tags.json task-definition-without-tags.json > task-definition.json
+          aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq ".taskDefinition, .tags += .tags" > task-definition.json
 
       - name: Deploy task to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@tags
@@ -43,6 +44,7 @@ jobs:
           run-task-assign-public-IP: ENABLED
           run-task-tags: '[{"key": "project", "value": "myproject"}]'
           enable-ecs-managed-tags: true
+          propagate-tags: TASK_DEFINITION
 
       - name: Download task definition
         run: |
