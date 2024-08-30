@@ -32,6 +32,7 @@ jobs:
           # merge tags content into task def
           #jq '.tags += $tags' --slurpfile tags task-definition-tags.json task-definition-without-tags.json > task-definition.json
           aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq ".taskDefinition, .tags += .tags" > task-definition.json
+          cat task-definition.json
 
       - name: Deploy task to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@tags
