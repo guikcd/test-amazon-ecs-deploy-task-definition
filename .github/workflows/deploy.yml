@@ -43,7 +43,7 @@ jobs:
           run-task-security-groups: sg-0dd8b7d47efa871c1
           run-task-subnets: subnet-48cffe2e
           run-task-assign-public-IP: ENABLED
-          run-task-tags: '[{"key": "project", "value": "myproject"}]'
+          run-task-tags: '[{"key": "project", "value": "myruntaskproject"}]'
           enable-ecs-managed-tags: true
           propagate-tags: TASK_DEFINITION
 
