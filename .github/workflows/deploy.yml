@@ -35,7 +35,7 @@ jobs:
           cat task-definition.json
 
       - name: Deploy task to Amazon ECS
-        uses: guikcd/amazon-ecs-deploy-task-definition@tags
+        uses: guikcd/amazon-ecs-deploy-task-definition@tags_propagate_taskdef
         with:
           task-definition: task-definition.json
           cluster: ${{secrets.ECS_CLUSTER}}
