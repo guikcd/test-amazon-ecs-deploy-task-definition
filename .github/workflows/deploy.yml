@@ -60,3 +60,15 @@ jobs:
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
           propagate-tags: SERVICE
+
+      - name: Deploy service to Amazon ECS
+        uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
+        with:
+          task-definition: task-definition.json
+          service: ${{secrets.ECS_SERVICE}}
+          cluster: ${{secrets.ECS_CLUSTER}}
+          wait-for-service-stability: true
+
+      #- name: Check tags
+      #  run: |
+      #    #aws ecs describe-tasks --cluster test-ecs-deploy-task-definition-cluster --tasks $task --query 'tasks[?group==`service:test-ecs-deploy-task-definition-service`].taskArn' --output text
