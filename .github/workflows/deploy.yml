@@ -34,40 +34,40 @@ jobs:
           aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq '.taskDefinition += { "tags": .tags }' | jq .taskDefinition > task-definition.json
           cat task-definition.json
 
-      - name: Deploy task to Amazon ECS
-        uses: guikcd/amazon-ecs-deploy-task-definition@tags_propagate_taskdef
-        with:
-          task-definition: task-definition.json
-          cluster: ${{secrets.ECS_CLUSTER}}
-          run-task: true
-          run-task-security-groups: sg-0dd8b7d47efa871c1
-          run-task-subnets: subnet-48cffe2e
-          run-task-assign-public-IP: ENABLED
-          run-task-tags: '[{"key": "project", "value": "myruntaskproject"}]'
-          enable-ecs-managed-tags: true
-          propagate-tags: TASK_DEFINITION
-
-      - name: Download task definition
-        run: |
-          aws ecs describe-task-definition --task-definition fargate-task-definition --query taskDefinition > task-definition.json
-
-      - name: Deploy service to Amazon ECS
-        uses: guikcd/amazon-ecs-deploy-task-definition@tags
-        with:
-          task-definition: task-definition.json
-          service: ${{secrets.ECS_SERVICE}}
-          cluster: ${{secrets.ECS_CLUSTER}}
-          wait-for-service-stability: true
-          enable-ecs-managed-tags: true
-          propagate-tags: SERVICE
-
-      - name: Deploy service to Amazon ECS
+      - name: Deploy service to Amazon ECS ignoredAttributes
         uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
         with:
           task-definition: task-definition.json
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
+
+      #- name: Deploy task to Amazon ECS
+      #  uses: guikcd/amazon-ecs-deploy-task-definition@tags_propagate_taskdef
+      #  with:
+      #    task-definition: task-definition.json
+      #    cluster: ${{secrets.ECS_CLUSTER}}
+      #    run-task: true
+      #    run-task-security-groups: sg-0dd8b7d47efa871c1
+      #    run-task-subnets: subnet-48cffe2e
+      #    run-task-assign-public-IP: ENABLED
+      #    run-task-tags: '[{"key": "project", "value": "myruntaskproject"}]'
+      #    enable-ecs-managed-tags: true
+      #    propagate-tags: TASK_DEFINITION
+
+      #- name: Download task definition
+      #  run: |
+      #    aws ecs describe-task-definition --task-definition fargate-task-definition --query taskDefinition > task-definition.json
+
+      #- name: Deploy service to Amazon ECS
+      #  uses: guikcd/amazon-ecs-deploy-task-definition@tags
+      #  with:
+      #    task-definition: task-definition.json
+      #    service: ${{secrets.ECS_SERVICE}}
+      #    cluster: ${{secrets.ECS_CLUSTER}}
+      #    wait-for-service-stability: true
+      #    enable-ecs-managed-tags: true
+      #    propagate-tags: SERVICE
 
       #- name: Check tags
       #  run: |
