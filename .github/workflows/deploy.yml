@@ -73,7 +73,7 @@ jobs:
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
-          propagate-tags: SERVICE
+          propagate-tags: TASK_DEFINITION
 
       #- name: Check tags
       #  run: |
