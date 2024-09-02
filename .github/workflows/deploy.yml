@@ -40,14 +40,14 @@ jobs:
           container-name: sample-fargate-app
           image: public.ecr.aws/docker/library/httpd:2.4
 
-      - name: Deploy service to Amazon ECS ignoredAttributes
-        uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
-        with:
-          #task-definition: task-definition.json
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{secrets.ECS_SERVICE}}
-          cluster: ${{secrets.ECS_CLUSTER}}
-          wait-for-service-stability: false
+      #- name: Deploy service to Amazon ECS ignoredAttributes
+      #  uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
+      #  with:
+      #    #task-definition: task-definition.json
+      #    task-definition: ${{ steps.task-def.outputs.task-definition }}
+      #    service: ${{secrets.ECS_SERVICE}}
+      #    cluster: ${{secrets.ECS_CLUSTER}}
+      #    wait-for-service-stability: false
 
       #- name: Deploy task to Amazon ECS
       #  uses: guikcd/amazon-ecs-deploy-task-definition@tags_propagate_taskdef
@@ -66,15 +66,15 @@ jobs:
       #  run: |
       #    aws ecs describe-task-definition --task-definition fargate-task-definition --query taskDefinition > task-definition.json
 
-      #- name: Deploy service to Amazon ECS
-      #  uses: guikcd/amazon-ecs-deploy-task-definition@tags
-      #  with:
-      #    task-definition: task-definition.json
-      #    service: ${{secrets.ECS_SERVICE}}
-      #    cluster: ${{secrets.ECS_CLUSTER}}
-      #    wait-for-service-stability: true
-      #    enable-ecs-managed-tags: true
-      #    propagate-tags: SERVICE
+      - name: Deploy service to Amazon ECS
+        uses: guikcd/amazon-ecs-deploy-task-definition@tags
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{secrets.ECS_SERVICE}}
+          cluster: ${{secrets.ECS_CLUSTER}}
+          wait-for-service-stability: true
+          enable-ecs-managed-tags: true
+          propagate-tags: SERVICE
 
       #- name: Check tags
       #  run: |
