@@ -41,7 +41,7 @@ jobs:
           image: public.ecr.aws/docker/library/httpd:2.4
 
       - name: Runtask - Deploy task to Amazon ECS
-        uses: guikcd/amazon-ecs-deploy-task-definition@tags_propagate_taskdef
+        uses: guikcd/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           cluster: ${{secrets.ECS_CLUSTER}}
@@ -49,9 +49,6 @@ jobs:
           run-task-security-groups: sg-0dd8b7d47efa871c1
           run-task-subnets: subnet-48cffe2e
           run-task-assign-public-IP: ENABLED
-          run-task-tags: '[{"key": "project", "value": "myruntaskproject"}]'
-          enable-ecs-managed-tags: true
-          propagate-tags: TASK_DEFINITION
 
       - name: Service - Download task definition
         run: |
@@ -66,14 +63,12 @@ jobs:
           )' > task-definition.json # https://github.com/aws-actions/amazon-ecs-deploy-task-definition/issues/176
 
       - name: Service - Deploy service to Amazon ECS
-        uses: guikcd/amazon-ecs-deploy-task-definition@tags_propagate_taskdef
+        uses: guikcd/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: task-definition.json
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
-          enable-ecs-managed-tags: true
-          propagate-tags: SERVICE
 
       #- name: Check tags
       #  run: |
