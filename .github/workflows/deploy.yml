@@ -33,6 +33,7 @@ jobs:
           #jq '.tags += $tags' --slurpfile tags task-definition-tags.json task-definition-without-tags.json > task-definition.json
           #aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq '.taskDefinition += { "tags": .tags }' | jq .taskDefinition > task-definition.json
           #cat task-definition.json
+        id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition-family: fargate-task-definition
@@ -42,7 +43,8 @@ jobs:
       - name: Deploy service to Amazon ECS ignoredAttributes
         uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
         with:
-          task-definition: task-definition.json
+          #task-definition: task-definition.json
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: false
