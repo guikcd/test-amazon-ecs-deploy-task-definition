@@ -34,7 +34,7 @@ jobs:
           #aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq '.taskDefinition += { "tags": .tags }' | jq .taskDefinition > task-definition.json
           #cat task-definition.json
         id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: guikcd/amazon-ecs-render-task-definition@clean_attrs
         with:
           task-definition-family: fargate-task-run-task-definition
           container-name: sample-fargate-app
