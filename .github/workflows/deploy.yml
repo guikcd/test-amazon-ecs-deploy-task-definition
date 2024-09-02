@@ -54,7 +54,15 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition fargate-task-definition --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition fargate-task-definition --query taskDefinition | jq -r 'del(
+           .taskDefinitionArn,
+           .requiresAttributes,
+           .compatibilities,
+           .revision,
+           .status,
+           .registeredAt,
+           .registeredBy
+          )' > task-definition.json # https://github.com/aws-actions/amazon-ecs-deploy-task-definition/issues/176
 
       - name: Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@tags
