@@ -36,40 +36,30 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition-family: fargate-task-definition
+          task-definition-family: fargate-task-run-task-definition
           container-name: sample-fargate-app
           image: public.ecr.aws/docker/library/httpd:2.4
 
-      #- name: Deploy service to Amazon ECS ignoredAttributes
-      #  uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
-      #  with:
-      #    #task-definition: task-definition.json
-      #    task-definition: ${{ steps.task-def.outputs.task-definition }}
-      #    service: ${{secrets.ECS_SERVICE}}
-      #    cluster: ${{secrets.ECS_CLUSTER}}
-      #    wait-for-service-stability: false
+      - name: Deploy task to Amazon ECS
+        uses: guikcd/amazon-ecs-deploy-task-definition@tags
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          cluster: ${{secrets.ECS_CLUSTER}}
+          run-task: true
+          run-task-security-groups: sg-0dd8b7d47efa871c1
+          run-task-subnets: subnet-48cffe2e
+          run-task-assign-public-IP: ENABLED
+          run-task-tags: '[{"key": "project", "value": "myruntaskproject"}]'
+          enable-ecs-managed-tags: true
 
-      #- name: Deploy task to Amazon ECS
-      #  uses: guikcd/amazon-ecs-deploy-task-definition@tags_propagate_taskdef
-      #  with:
-      #    task-definition: task-definition.json
-      #    cluster: ${{secrets.ECS_CLUSTER}}
-      #    run-task: true
-      #    run-task-security-groups: sg-0dd8b7d47efa871c1
-      #    run-task-subnets: subnet-48cffe2e
-      #    run-task-assign-public-IP: ENABLED
-      #    run-task-tags: '[{"key": "project", "value": "myruntaskproject"}]'
-      #    enable-ecs-managed-tags: true
-      #    propagate-tags: TASK_DEFINITION
-
-      #- name: Download task definition
-      #  run: |
-      #    aws ecs describe-task-definition --task-definition fargate-task-definition --query taskDefinition > task-definition.json
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition fargate-task-definition --query taskDefinition > task-definition.json
 
       - name: Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@tags
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: task-definition.json
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
