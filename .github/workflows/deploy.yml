@@ -37,6 +37,7 @@ jobs:
         with:
           task-definition-family: fargate-task-definition
           container-name: sample-fargate-app
+          image: public.ecr.aws/docker/library/httpd:2.4
 
       - name: Deploy service to Amazon ECS ignoredAttributes
         uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
