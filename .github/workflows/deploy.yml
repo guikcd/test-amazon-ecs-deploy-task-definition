@@ -36,7 +36,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition-family: fargate-task-definition
-          name: sample-fargate-app
+          container-name: sample-fargate-app
 
       - name: Deploy service to Amazon ECS ignoredAttributes
         uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
