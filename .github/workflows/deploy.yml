@@ -31,8 +31,11 @@ jobs:
           #cat task-definition-tags.json
           # merge tags content into task def
           #jq '.tags += $tags' --slurpfile tags task-definition-tags.json task-definition-without-tags.json > task-definition.json
-          aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq '.taskDefinition += { "tags": .tags }' | jq .taskDefinition > task-definition.json
-          cat task-definition.json
+          #aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq '.taskDefinition += { "tags": .tags }' | jq .taskDefinition > task-definition.json
+          #cat task-definition.json
+          uses: aws-actions/amazon-ecs-render-task-definition@v1
+          with:
+            task-definition-family: fargate-task-definition
 
       - name: Deploy service to Amazon ECS ignoredAttributes
         uses: guikcd/amazon-ecs-deploy-task-definition@ignoredAttributes
