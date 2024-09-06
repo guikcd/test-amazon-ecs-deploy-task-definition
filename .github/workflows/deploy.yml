@@ -34,14 +34,14 @@ jobs:
           #aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq '.taskDefinition += { "tags": .tags }' | jq .taskDefinition > task-definition.json
           #cat task-definition.json
         id: task-def
-        uses: guikcd/amazon-ecs-render-task-definition@clean_attrs
+        uses: guikcd/amazon-ecs-render-task-definition@master
         with:
           task-definition-family: fargate-task-run-task-definition
           container-name: sample-fargate-app
           image: public.ecr.aws/docker/library/httpd:2.4
 
       - name: Runtask - Deploy task to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.1.0
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           cluster: ${{secrets.ECS_CLUSTER}}
@@ -49,6 +49,8 @@ jobs:
           run-task-security-groups: sg-0dd8b7d47efa871c1
           run-task-subnets: subnet-48cffe2e
           run-task-assign-public-IP: ENABLED
+          enable-ecs-managed-tags: true
+          run-task-tags: '[{"key": "project", "value": "myproject"}]'
 
       - name: Service - Download task definition
         run: |
@@ -63,12 +65,14 @@ jobs:
           )' > task-definition.json # https://github.com/aws-actions/amazon-ecs-deploy-task-definition/issues/176
 
       - name: Service - Deploy service to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.1.0
         with:
           task-definition: task-definition.json
           service: ${{secrets.ECS_SERVICE}}
           cluster: ${{secrets.ECS_CLUSTER}}
           wait-for-service-stability: true
+          enable-ecs-managed-tags: true
+          propagate-tags: SERVICE
 
       #- name: Check tags
       #  run: |
