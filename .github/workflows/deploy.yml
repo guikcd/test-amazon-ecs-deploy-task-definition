@@ -46,8 +46,8 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           cluster: ${{secrets.ECS_CLUSTER}}
           run-task: true
-          run-task-security-groups: sg-0dd8b7d47efa871c1
-          run-task-subnets: subnet-48cffe2e
+          run-task-security-groups: ${{secrets.ECS_SECIRITY_GROUPS}}
+          run-task-subnets: ${{secrets.ECS_SUBNETS}}
           run-task-assign-public-IP: ENABLED
           enable-ecs-managed-tags: true
           run-task-tags: '[{"key": "project", "value": "myproject"}]'
@@ -65,7 +65,7 @@ jobs:
           )' > task-definition.json # https://github.com/aws-actions/amazon-ecs-deploy-task-definition/issues/176
 
       - name: Service - Deploy service to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.1.0
+        uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         with:
           task-definition: task-definition.json
           service: ${{secrets.ECS_SERVICE}}
