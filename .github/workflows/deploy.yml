@@ -65,7 +65,8 @@ jobs:
           )' > task-definition.json # https://github.com/aws-actions/amazon-ecs-deploy-task-definition/issues/176
 
       - name: Service - Deploy service to Amazon ECS
-        uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
+        #uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           task-definition: task-definition.json
           service: ${{secrets.ECS_SERVICE}}
