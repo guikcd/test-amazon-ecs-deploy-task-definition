@@ -40,17 +40,17 @@ jobs:
           container-name: sample-fargate-app
           image: public.ecr.aws/docker/library/httpd:2.4
 
-      - name: Runtask - Deploy task to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.1.0
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          cluster: ${{secrets.ECS_CLUSTER}}
-          run-task: true
-          run-task-security-groups: ${{secrets.ECS_SECIRITY_GROUPS}}
-          run-task-subnets: ${{secrets.ECS_SUBNETS}}
-          run-task-assign-public-IP: ENABLED
-          enable-ecs-managed-tags: true
-          run-task-tags: '[{"key": "project", "value": "myproject"}]'
+      #- name: Runtask - Deploy task to Amazon ECS
+      #  uses: aws-actions/amazon-ecs-deploy-task-definition@v2.1.0
+      #  with:
+      #    task-definition: ${{ steps.task-def.outputs.task-definition }}
+      #    cluster: ${{secrets.ECS_CLUSTER}}
+      #    run-task: true
+      #    run-task-security-groups: ${{secrets.ECS_SECIRITY_GROUPS}}
+      #    run-task-subnets: ${{secrets.ECS_SUBNETS}}
+      #    run-task-assign-public-IP: ENABLED
+      #    enable-ecs-managed-tags: true
+      #    run-task-tags: '[{"key": "project", "value": "myproject"}]'
 
       - name: Service - Download task definition
         run: |
