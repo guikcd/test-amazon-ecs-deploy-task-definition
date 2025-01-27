@@ -68,7 +68,8 @@ jobs:
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
-          task-definition: task-definition.json
+          # task-definition: task-definition.json
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: test-ecs-render
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
