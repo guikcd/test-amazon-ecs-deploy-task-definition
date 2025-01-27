@@ -19,7 +19,7 @@ jobs:
           role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
           aws-region: ${{secrets.AWS_REGION}}
 
-    #  - name: Runtask - Download task definition
+      - name: Runtask - Download task definition
         #run: |
           #aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --query taskDefinition > task-definition-without-tags.json
           #echo "###### task def ########"
@@ -33,12 +33,12 @@ jobs:
           #jq '.tags += $tags' --slurpfile tags task-definition-tags.json task-definition-without-tags.json > task-definition.json
           #aws ecs describe-task-definition --task-definition fargate-task-run-task-definition --include TAGS | jq '.taskDefinition += { "tags": .tags }' | jq .taskDefinition > task-definition.json
           #cat task-definition.json
-     #   id: task-def
-     #   uses: guikcd/amazon-ecs-render-task-definition@master
-     #   with:
-     #     task-definition-family: fargate-task-run-task-definition
-     #     container-name: sample-fargate-app
-     #     image: public.ecr.aws/docker/library/httpd:2.4
+        id: task-def
+        uses: guikcd/amazon-ecs-render-task-definition@clean_attrs
+        with:
+          task-definition-family: test-ecs-renderTaskDefinition
+          container-name: test-ecs-render
+          image: public.ecr.aws/docker/library/httpd:2.4
 
       #- name: Runtask - Deploy task to Amazon ECS
       #  uses: aws-actions/amazon-ecs-deploy-task-definition@v2.1.0
@@ -52,25 +52,25 @@ jobs:
       #    enable-ecs-managed-tags: true
       #    run-task-tags: '[{"key": "project", "value": "myproject"}]'
 
-      - name: Service - Download task definition
-        run: |
-          aws ecs describe-task-definition --task-definition ${{secrets.TASK_DEFINITION}} --query taskDefinition | jq -r 'del(
-           .taskDefinitionArn,
-           .requiresAttributes,
-           .compatibilities,
-           .revision,
-           .status,
-           .registeredAt,
-           .registeredBy
-          )' > task-definition.json # https://github.com/aws-actions/amazon-ecs-deploy-task-definition/issues/176
+      #- name: Service - Download task definition
+      #  run: |
+      #    aws ecs describe-task-definition --task-definition ${{secrets.TASK_DEFINITION}} --query taskDefinition | jq -r 'del(
+      #     .taskDefinitionArn,
+      #     .requiresAttributes,
+      #     .compatibilities,
+      #     .revision,
+      #     .status,
+      #     .registeredAt,
+      #     .registeredBy
+      #    )' > task-definition.json # https://github.com/aws-actions/amazon-ecs-deploy-task-definition/issues/176
 
       - name: Service - Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           task-definition: task-definition.json
-          service: ${{secrets.ECS_SERVICE}}
-          cluster: ${{secrets.ECS_CLUSTER}}
+          service: test-ecs-render
+          cluster: test-ecs-renderCluster
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
           # propagate-tags: SERVICE
