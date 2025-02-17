@@ -27,6 +27,12 @@ jobs:
           container-name: test-ecs-render
           image: public.ecr.aws/docker/library/httpd:2.4
 
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
       - name: Service - Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
@@ -37,8 +43,13 @@ jobs:
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
-          # propagate-tags: SERVICE
 
+  deploy-propagate-from-service:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
       - name: Service - Deploy service to Amazon ECS propagate from created service
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
@@ -49,7 +60,24 @@ jobs:
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
-          # propagate-tags: SERVICE
+
+  deploy-propagate-update-service:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Service - Deploy service to Amazon ECS propagate update service
+        uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
+        #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
+        with:
+          # task-definition: task-definition.json
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: test-ecs-render-propagateTagsUpdateService
+          cluster: test-ecs-renderCluster
+          wait-for-service-stability: true
+          enable-ecs-managed-tags: true
+          propagate-tags: SERVICE
 
       #- name: Check tags
       #  run: |
