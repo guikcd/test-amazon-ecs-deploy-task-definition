@@ -37,6 +37,7 @@ jobs:
             # Copy with static name
             cp "$SOURCE_FILE" "${{ runner.temp }}/static/task-definition.json"
             echo "File copied to static name"
+            ls -la ${{ runner.temp }}
             ls -la ${{ runner.temp }}/static
           else
             echo "No source file found"
@@ -47,6 +48,7 @@ jobs:
         with:
           name: task-def
           path: ${{ runner.temp }}/static/task-definition.json
+          if-no-files-found: error
           retention-days: 1
     outputs:
       task-definition: ${{ steps.task-def.outputs.task-definition }}
@@ -68,7 +70,7 @@ jobs:
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           # task-definition: task-definition.json
-          task-definition: ${{ needs.prepare.outputs.task-definition }}
+          task-definition: ${{ runner.temp }}/static/task-definition.json
           service: test-ecs-render
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
