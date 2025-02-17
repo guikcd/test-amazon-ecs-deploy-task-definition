@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: task-def
-          path: work/_temp/**
+          path: _temp/**
           retention-days: 1
     outputs:
       task-definition: ${{ steps.task-def.outputs.task-definition }}
@@ -47,7 +47,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: temp-files
-          path: work/_temp
+          path: _temp
       - name: Service - Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
@@ -70,7 +70,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: temp-files
-          path: work/_temp
+          path: _temp
       - name: Service - Deploy service to Amazon ECS propagate from created service
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
@@ -93,7 +93,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: temp-files
-          path: work/_temp
+          path: _temp
       - name: Service - Deploy service to Amazon ECS propagate update service
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
