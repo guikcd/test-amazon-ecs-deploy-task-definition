@@ -26,6 +26,8 @@ jobs:
           task-definition-family: test-ecs-renderTaskDefinition
           container-name: test-ecs-render
           image: public.ecr.aws/docker/library/httpd:2.4
+    outputs:
+      task-definition: ${{ steps.task-def.outputs.task-definition }}
 
   deploy:
     runs-on: ubuntu-latest
