@@ -63,7 +63,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: temp-files
+          name: task-def
           path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
@@ -86,14 +86,14 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: temp-files
+          name: task-def
           path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS propagate from created service
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           # task-definition: task-definition.json
-          task-definition: ${{ needs.prepare.outputs.task-definition }}
+          task-definition: ${{ runner.temp }}/static/task-definition.json
           service: test-ecs-render-propagateTagsCreatedService
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
@@ -109,14 +109,14 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: temp-files
+          name: task-def
           path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS propagate update service
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           # task-definition: task-definition.json
-          task-definition: ${{ needs.prepare.outputs.task-definition }}
+          task-definition: ${{ runner.temp }}/static/task-definition.json
           service: test-ecs-render-propagateTagsUpdateService
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
