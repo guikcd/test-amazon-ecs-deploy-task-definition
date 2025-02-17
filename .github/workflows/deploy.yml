@@ -70,6 +70,10 @@ jobs:
         with:
           name: task-def
           path: ${{ runner.temp }}/static/
+      - name: Task def content
+        run: |
+          ls -al ${{ runner.temp }}/static/
+          cat ${{ runner.temp }}/static/task-definition.json
       - name: Service - Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
