@@ -39,7 +39,7 @@ jobs:
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           # task-definition: task-definition.json
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: ${{ needs.prepare.outputs.task-definition }}
           service: test-ecs-render
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
@@ -57,7 +57,7 @@ jobs:
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           # task-definition: task-definition.json
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: ${{ needs.prepare.outputs.task-definition }}
           service: test-ecs-render-propagateTagsCreatedService
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
@@ -75,7 +75,7 @@ jobs:
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
         with:
           # task-definition: task-definition.json
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: ${{ needs.prepare.outputs.task-definition }}
           service: test-ecs-render-propagateTagsUpdateService
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
