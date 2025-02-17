@@ -26,12 +26,27 @@ jobs:
           task-definition-family: test-ecs-renderTaskDefinition
           container-name: test-ecs-render
           image: public.ecr.aws/docker/library/httpd:2.4
+      - name: Copy to static filename
+        run: |
+          # Find the file (adjust pattern as needed)
+          SOURCE_FILE=$(find ${{ runner.temp }} -type f -name "*.json" | head -n 1)
           
+          if [ -f "$SOURCE_FILE" ]; then
+            # Create a directory for the static file
+            mkdir -p ${{ runner.temp }}/static
+            # Copy with static name
+            cp "$SOURCE_FILE" "${{ runner.temp }}/static/task-definition.json"
+            echo "File copied to static name"
+            ls -la ${{ runner.temp }}/static
+          else
+            echo "No source file found"
+            exit 1
+          fi
       - name: Temporarily save task def
         uses: actions/upload-artifact@v4
         with:
           name: task-def
-          path: /home/runner/work/_temp/**
+          path: ${{ runner.temp }}/static/task-definition.json
           retention-days: 1
     outputs:
       task-definition: ${{ steps.task-def.outputs.task-definition }}
@@ -47,7 +62,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: temp-files
-          path: /home/runner/work/_temp
+          path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
@@ -70,7 +85,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: temp-files
-          path: /home/runner/work/_temp
+          path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS propagate from created service
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
@@ -93,7 +108,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: temp-files
-          path: /home/runner/work/_temp
+          path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS propagate update service
         uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
