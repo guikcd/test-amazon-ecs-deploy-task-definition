@@ -29,7 +29,7 @@ jobs:
       - name: Copy to static filename
         run: |
           # Find the file (adjust pattern as needed)
-          SOURCE_FILE=$(find ${{ runner.temp }} -type f -name "*.json" | head -n 1)
+          SOURCE_FILE=$(find ${{ runner.temp }} -type f -name "task-definition*.json" | head -n 1)
           
           if [ -f "$SOURCE_FILE" ]; then
             # Create a directory for the static file
