@@ -75,73 +75,10 @@ jobs:
           ls -al ${{ runner.temp }}/static/
           cat ${{ runner.temp }}/static/task-definition.json
       - name: Service - Deploy service to Amazon ECS
-        #uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.2
         with:
-          # task-definition: task-definition.json
           task-definition: ${{ runner.temp }}/static/task-definition.json
           service: test-ecs-render
           cluster: test-ecs-renderCluster
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
-
-  deploy-propagate-from-service:
-    runs-on: ubuntu-latest
-    needs: prepare
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
-          aws-region: ${{secrets.AWS_REGION}}
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: task-def
-          path: ${{ runner.temp }}/static/
-      - name: Service - Deploy service to Amazon ECS propagate from created service
-        #uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.2
-        with:
-          # task-definition: task-definition.json
-          task-definition: ${{ runner.temp }}/static/task-definition.json
-          service: test-ecs-render-propagateTagsCreatedService
-          cluster: test-ecs-renderCluster
-          wait-for-service-stability: true
-          enable-ecs-managed-tags: true
-
-  deploy-propagate-update-service:
-    runs-on: ubuntu-latest
-    needs: prepare
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
-          aws-region: ${{secrets.AWS_REGION}}
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: task-def
-          path: ${{ runner.temp }}/static/
-      - name: Service - Deploy service to Amazon ECS propagate update service
-        #uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.2
-        with:
-          # task-definition: task-definition.json
-          task-definition: ${{ runner.temp }}/static/task-definition.json
-          service: test-ecs-render-propagateTagsUpdateService
-          cluster: test-ecs-renderCluster
-          wait-for-service-stability: true
-          enable-ecs-managed-tags: true
-          propagate-tags: SERVICE
-
-      #- name: Check tags
-      #  run: |
-      #    #aws ecs describe-tasks --cluster test-ecs-deploy-task-definition-cluster --tasks $task --query 'tasks[?group==`service:test-ecs-deploy-task-definition-service`].taskArn' --output text
