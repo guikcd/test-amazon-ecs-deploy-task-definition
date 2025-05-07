@@ -75,8 +75,8 @@ jobs:
           ls -al ${{ runner.temp }}/static/
           cat ${{ runner.temp }}/static/task-definition.json
       - name: Service - Deploy service to Amazon ECS
-        uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
-        #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
+        #uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.2
         with:
           # task-definition: task-definition.json
           task-definition: ${{ runner.temp }}/static/task-definition.json
@@ -103,8 +103,8 @@ jobs:
           name: task-def
           path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS propagate from created service
-        uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
-        #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
+        #uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.2
         with:
           # task-definition: task-definition.json
           task-definition: ${{ runner.temp }}/static/task-definition.json
@@ -131,8 +131,8 @@ jobs:
           name: task-def
           path: ${{ runner.temp }}/static/
       - name: Service - Deploy service to Amazon ECS propagate update service
-        uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
-        #uses: aws-actions/amazon-ecs-deploy-task-definition@v2.2.0
+        #uses: guikcd/amazon-ecs-deploy-task-definition@propagate_tags_get_current_value
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.2
         with:
           # task-definition: task-definition.json
           task-definition: ${{ runner.temp }}/static/task-definition.json
