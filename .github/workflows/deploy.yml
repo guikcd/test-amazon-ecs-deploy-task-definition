@@ -23,9 +23,9 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@master
         with:
-          task-definition-family: test-ecs-renderTaskDefinition
-          container-name: test-ecs-render
-          image: public.ecr.aws/docker/library/httpd:2.4
+          task-definition-family: CdkFargateStackTaskDef424235B4
+          container-name: java-app
+          image: public.ecr.aws/aws-containers/retail-store-sample-ui:1.2.4
       - name: Copy to static filename
         run: |
           # Find the file (adjust pattern as needed)
@@ -66,7 +66,7 @@ jobs:
           role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
           aws-region: ${{secrets.AWS_REGION}}
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: task-def
           path: ${{ runner.temp }}/static/
