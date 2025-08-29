@@ -75,10 +75,10 @@ jobs:
           ls -al ${{ runner.temp }}/static/
           cat ${{ runner.temp }}/static/task-definition.json
       - name: Service - Deploy service to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.2
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.4
         with:
           task-definition: ${{ runner.temp }}/static/task-definition.json
-          service: test-ecs-render
-          cluster: test-ecs-renderCluster
+          service: CdkFargateStack-MyFargateServiceF490C034-3vI7RjKoHEVU
+          cluster: CdkFargateStack-MyCluster4C1BA579-51NElzJUOOz5
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
