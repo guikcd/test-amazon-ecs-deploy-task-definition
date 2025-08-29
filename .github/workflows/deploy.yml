@@ -25,7 +25,7 @@ jobs:
         with:
           task-definition-family: CdkFargateStackTaskDef424235B4
           container-name: java-app
-          image: public.ecr.aws/aws-containers/retail-store-sample-ui:1.2.4
+          image: public.ecr.aws/aws-containers/retail-store-sample-ui:1.2.3
       - name: Copy to static filename
         run: |
           # Find the file (adjust pattern as needed)
