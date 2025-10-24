@@ -46,7 +46,7 @@ jobs:
             exit 1
           fi
       - name: Temporarily save task def
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: task-def
           path: ${{ runner.temp }}/static/task-definition.json
@@ -68,7 +68,7 @@ jobs:
           role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
           aws-region: ${{secrets.AWS_REGION}}
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: task-def
           path: ${{ runner.temp }}/static/
