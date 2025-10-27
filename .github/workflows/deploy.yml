@@ -46,7 +46,7 @@ jobs:
             exit 1
           fi
       - name: Temporarily save task def
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: task-def
           path: ${{ runner.temp }}/static/task-definition.json
