@@ -77,7 +77,7 @@ jobs:
           ls -al ${{ runner.temp }}/static/
           cat ${{ runner.temp }}/static/task-definition.json
       - name: Service - Deploy service to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.4.0
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.5.0
         with:
           task-definition: ${{ runner.temp }}/static/task-definition.json
           service: CdkFargateStack-MyFargateServiceF490C034-3vI7RjKoHEVU
