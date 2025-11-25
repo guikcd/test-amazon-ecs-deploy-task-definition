@@ -82,5 +82,5 @@ jobs:
           task-definition: ${{ runner.temp }}/static/task-definition.json
           service: CdkFargateStack-MyFargateServiceF490C034-3vI7RjKoHEVU
           cluster: CdkFargateStack-MyCluster4C1BA579-51NElzJUOOz5
-          wait-for-service-stability: true
+          wait-for-service-stability: false
           enable-ecs-managed-tags: true
