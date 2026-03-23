@@ -21,7 +21,7 @@ jobs:
 
       - name: Runtask - Download task definition
         id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1.8.3
+        uses: aws-actions/amazon-ecs-render-task-definition@v1.8.4
         with:
           task-definition-family: CdkFargateStackTaskDef424235B4
           container-name: java-app
