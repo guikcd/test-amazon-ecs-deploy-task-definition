@@ -25,7 +25,7 @@ jobs:
         with:
           task-definition-family: CdkFargateStackTaskDef424235B4
           container-name: java-app
-          image: public.ecr.aws/aws-containers/retail-store-sample-ui:1.5.0
+          image: public.ecr.aws/aws-containers/retail-store-sample-ui:1.6.2
           environment-variables: |
             RETAIL_UI_THEME=orange
       - name: Copy to static filename
